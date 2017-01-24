@@ -7,8 +7,9 @@
 int main(int argc, char** argv)
 {
     //initial variable declarations
-    int n, t, ch, row, col, m;
+    int n, t, ch, row, col, m, max;
     n = 0;
+    max = 0;
 
     //create file handles and open files to store data points
     FILE* fid0, *fid1, *fid2, *fid3;
@@ -22,10 +23,13 @@ int main(int argc, char** argv)
     opterr = 1;
 
     //check for command line inputs.
-    while((ch = getopt(argc, argv, "n:t:")) != -1)
+    while((ch = getopt(argc, argv, "m:n:t:")) != -1)
     {
         switch(ch)
         {
+            case 'm':
+                max = atoi(optarg);
+                break;
             case 'n':
                 n = atoi(optarg);
                 break;
@@ -38,6 +42,7 @@ int main(int argc, char** argv)
     }
 
     if(!n) n = 4; //if n was not given use 4
+    if(!max) max = 10; //if max not specified use 10.
 
     //create matrices
     int a[n][n];
@@ -49,9 +54,9 @@ int main(int argc, char** argv)
     {
         for(col = 0; col < n; col++)
         {
-            a[row][col] = rand()%10;
-            b[row][col] = rand()%10;
-            c[row][col] = rand()%10;
+            a[row][col] = rand()%max;
+            b[row][col] = rand()%max;
+            c[row][col] = rand()%max;
             fprintf(fid0, "%d\t", c[row][col]);
         }
         fprintf(fid0, "\n");
