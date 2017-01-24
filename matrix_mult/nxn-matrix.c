@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     srand(time(NULL));
     opterr = 1;
 
-    //check for comman line inputs.
+    //check for command line inputs.
     while((ch = getopt(argc, argv, "n:t:")) != -1)
     {
         switch(ch)
@@ -49,9 +49,9 @@ int main(int argc, char** argv)
     {
         for(col = 0; col < n; col++)
         {
-            a[row][col] = rand()%100;
-            b[row][col] = rand()%100;
-            c[row][col] = rand()%100;
+            a[row][col] = rand()%10;
+            b[row][col] = rand()%10;
+            c[row][col] = rand()%10;
             fprintf(fid0, "%d\t", c[row][col]);
         }
         fprintf(fid0, "\n");
