@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <windows.h> /* needed for QueryPerformanceFrequency() and QueryPerformanceFrequency() */
 
+#define _64bit (sizeof(void*) == 8)
+
 /*
  * C-preprocessor macros
  *   MIN/MAX -- See http://stackoverflow.com/questions/3437404/min-and-max-in-c
@@ -30,7 +32,7 @@ double Freq;
 double ElapsedTimeInSeconds;
 
 /*
- * getopt globals 
+ * getopt globals
  *   These should all be initialized to something in order to check for errors
  *
  */
@@ -54,7 +56,7 @@ int unknown = 0;
  * -b, execute the block-sequential algorithm
  * -N <arg>, matrix size (NxN)
  * -i <arg>, where arg is i loop stride (default MIN(256/sizeof(double), N))
- * -j <arg>, where arg is j loop stride (default MIN(256/sizeof(double), N)) 
+ * -j <arg>, where arg is j loop stride (default MIN(256/sizeof(double), N))
  * -k <arg>, where arg is k loop stride (default MIN(256/sizeof(double), N))
  * -t, print timing information
  * -d, turn on debug/diagnostic messages flag
@@ -177,9 +179,9 @@ void initialize_time(void)
 	LARGE_INTEGER lFreq, lCnt;
 
 	QueryPerformanceFrequency(&lFreq);
-	Freq = (double)lFreq.LowPart;
+	Freq = (_64bit) ? (double)lFreq.QuadPart:(double)lFreq.LowPart;
 	QueryPerformanceCounter(&lCnt);
-	TimeCountStart = lCnt.LowPart;
+	TimeCountStart = (_64bit) ? lCnt.QuadPart:lCnt.LowPart;
 }
 
 void elapsed_time(void)
@@ -188,7 +190,7 @@ void elapsed_time(void)
 	long tcnt;
 
 	QueryPerformanceCounter(&lCnt);
-	tcnt = lCnt.LowPart - TimeCountStart;
+	tcnt = (_64bit) ? (lCnt.QuadPart - TimeCountStart):(lCnt.LowPart - TimeCountStart);
 	ElapsedTimeInSeconds = ((double)tcnt)/Freq;
 }
 
@@ -317,4 +319,3 @@ int main(int argc, char *argv[])
 	}
 	return(0);
 }
-
