@@ -1,16 +1,9 @@
-Script started on Thu, Feb  2, 2017 10:43:44 AM
+Script started on Mon, Feb  6, 2017  7:15:35 PM
 Simple sequential timing:
-./mmult -t -s -N 2000
-44.172859
+./mmult -t -s -N 2049
+83.750343
 Block sequential timing:
-./mmult -t -b -N 2000 -i 32 -j 32 -k 32
-22.908077
-./mmult -t -b -N 2000 -i 32 -j 32 -k 64
-22.834912
-./mmult -t -b -N 2000 -i 32 -j 32 -k 96
-22.553799
-./mmult -t -b -N 2000 -i 32 -j 32 -k 128
-22.806859
-./mmult -t -b -N 2000 -i 32 -j 64 -k 32
+./mmult -t -b -N 2049 -i 128 -j 128 -k 3
+29.295026
 
-Script done on Thu, Feb  2, 2017 10:46:07 AM
+Script done on Mon, Feb  6, 2017  7:17:29 PM

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in `seq 1 3`;
+do
+    script -tf -c "./runit ${1}" $2
+done
