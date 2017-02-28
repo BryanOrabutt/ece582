@@ -1,0 +1,30 @@
+Script started on Mon, Feb 27, 2017  8:37:47 PM
+Simple sequential timing:
+./mmult -t -s -N 300
+6.031304
+Block sequential timing:
+./mmult -t -b -N 300 -i 32 -j 32 -k 32
+6.141387
+./mmult -t -b -N 300 -i 32 -j 32 -k 64
+6.109996
+./mmult -t -b -N 300 -i 32 -j 32 -k 128
+6.042797
+./mmult -t -b -N 300 -i 32 -j 32 -k 256
+6.069332
+./mmult -t -b -N 300 -i 32 -j 32 -k 512
+6.046877
+./mmult -t -b -N 300 -i 32 -j 32 -k 1024
+6.084102
+./mmult -t -b -N 300 -i 32 -j 64 -k 32
+6.155070
+./mmult -t -b -N 300 -i 32 -j 64 -k 64
+6.068835
+./mmult -t -b -N 300 -i 32 -j 64 -k 128
+6.016858
+./mmult -t -b -N 300 -i 32 -j 64 -k 256
+6.070453
+./mmult -t -b -N 300 -i 32 -j 64 -k 512
+6.051774
+./mmult -t -b -N 300 -i 32 -j 64 -k 1024
+
+Script done on Mon, Feb 27, 2017  8:39:02 PM

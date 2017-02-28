@@ -9,9 +9,9 @@
 # List of i, j, & k strides for sub-block computations of the matrix multiply.
 # Change these as appropriate.
 #
-ISTRIDE_LIST="64"
-JSTRIDE_LIST="128"
-KSTRIDE_LIST="8"
+ISTRIDE_LIST="32 64 128 256 512 1024"
+JSTRIDE_LIST="32 64 128 256 512 1024"
+KSTRIDE_LIST="32 64 128 256 512 1024"
 
 #
 # This script expects exactly one command-line argument -- the matrix size.

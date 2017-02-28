@@ -1,9 +1,0 @@
-Script started on Mon, Feb  6, 2017  7:15:35 PM
-Simple sequential timing:
-./mmult -t -s -N 2049
-83.750343
-Block sequential timing:
-./mmult -t -b -N 2049 -i 128 -j 128 -k 3
-29.295026
-
-Script done on Mon, Feb  6, 2017  7:17:29 PM

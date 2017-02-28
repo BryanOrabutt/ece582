@@ -1,0 +1,79 @@
+Script started on Mon, Feb 27, 2017  7:04:22 PM
+Simple sequential timing:
+./mmult -t -s -N 1000
+3.920714
+Block sequential timing:
+./mmult -t -b -N 1000 -i 32 -j 32 -k 8
+2.538967
+./mmult -t -b -N 1000 -i 32 -j 32 -k 16
+2.446120
+./mmult -t -b -N 1000 -i 32 -j 32 -k 24
+2.715903
+./mmult -t -b -N 1000 -i 32 -j 32 -k 32
+2.691888
+./mmult -t -b -N 1000 -i 32 -j 64 -k 8
+2.536449
+./mmult -t -b -N 1000 -i 32 -j 64 -k 16
+2.431955
+./mmult -t -b -N 1000 -i 32 -j 64 -k 24
+2.694237
+./mmult -t -b -N 1000 -i 32 -j 64 -k 32
+2.698575
+./mmult -t -b -N 1000 -i 32 -j 128 -k 8
+2.586973
+./mmult -t -b -N 1000 -i 32 -j 128 -k 16
+2.438162
+./mmult -t -b -N 1000 -i 32 -j 128 -k 24
+2.784899
+./mmult -t -b -N 1000 -i 32 -j 128 -k 32
+2.723215
+./mmult -t -b -N 1000 -i 64 -j 32 -k 8
+2.758660
+./mmult -t -b -N 1000 -i 64 -j 32 -k 16
+2.522420
+./mmult -t -b -N 1000 -i 64 -j 32 -k 24
+2.759575
+./mmult -t -b -N 1000 -i 64 -j 32 -k 32
+2.910931
+./mmult -t -b -N 1000 -i 64 -j 64 -k 8
+2.624413
+./mmult -t -b -N 1000 -i 64 -j 64 -k 16
+2.481722
+./mmult -t -b -N 1000 -i 64 -j 64 -k 24
+2.804278
+./mmult -t -b -N 1000 -i 64 -j 64 -k 32
+2.824440
+./mmult -t -b -N 1000 -i 64 -j 128 -k 8
+2.600502
+./mmult -t -b -N 1000 -i 64 -j 128 -k 16
+2.433009
+./mmult -t -b -N 1000 -i 64 -j 128 -k 24
+2.639134
+./mmult -t -b -N 1000 -i 64 -j 128 -k 32
+2.691581
+./mmult -t -b -N 1000 -i 128 -j 32 -k 8
+2.512036
+./mmult -t -b -N 1000 -i 128 -j 32 -k 16
+2.371855
+./mmult -t -b -N 1000 -i 128 -j 32 -k 24
+2.702566
+./mmult -t -b -N 1000 -i 128 -j 32 -k 32
+2.616998
+./mmult -t -b -N 1000 -i 128 -j 64 -k 8
+2.503423
+./mmult -t -b -N 1000 -i 128 -j 64 -k 16
+2.400803
+./mmult -t -b -N 1000 -i 128 -j 64 -k 24
+2.655429
+./mmult -t -b -N 1000 -i 128 -j 64 -k 32
+2.680209
+./mmult -t -b -N 1000 -i 128 -j 128 -k 8
+2.450685
+./mmult -t -b -N 1000 -i 128 -j 128 -k 16
+2.418851
+./mmult -t -b -N 1000 -i 128 -j 128 -k 24
+2.703647
+./mmult -t -b -N 1000 -i 128 -j 128 -k 32
+2.686644
+
+Script done on Mon, Feb 27, 2017  7:06:04 PM

@@ -1,0 +1,79 @@
+Script started on Mon, Feb 27, 2017  7:25:03 PM
+Simple sequential timing:
+./mmult -t -s -N 300
+6.003231
+Block sequential timing:
+./mmult -t -b -N 300 -i 32 -j 32 -k 8
+6.656687
+./mmult -t -b -N 300 -i 32 -j 32 -k 16
+6.332848
+./mmult -t -b -N 300 -i 32 -j 32 -k 24
+6.161616
+./mmult -t -b -N 300 -i 32 -j 32 -k 32
+6.093344
+./mmult -t -b -N 300 -i 32 -j 64 -k 8
+6.555089
+./mmult -t -b -N 300 -i 32 -j 64 -k 16
+6.274495
+./mmult -t -b -N 300 -i 32 -j 64 -k 24
+6.161826
+./mmult -t -b -N 300 -i 32 -j 64 -k 32
+6.126749
+./mmult -t -b -N 300 -i 32 -j 128 -k 8
+6.522875
+./mmult -t -b -N 300 -i 32 -j 128 -k 16
+6.267005
+./mmult -t -b -N 300 -i 32 -j 128 -k 24
+6.144884
+./mmult -t -b -N 300 -i 32 -j 128 -k 32
+6.128701
+./mmult -t -b -N 300 -i 64 -j 32 -k 8
+6.584773
+./mmult -t -b -N 300 -i 64 -j 32 -k 16
+6.311803
+./mmult -t -b -N 300 -i 64 -j 32 -k 24
+6.214546
+./mmult -t -b -N 300 -i 64 -j 32 -k 32
+6.127120
+./mmult -t -b -N 300 -i 64 -j 64 -k 8
+6.591671
+./mmult -t -b -N 300 -i 64 -j 64 -k 16
+6.326335
+./mmult -t -b -N 300 -i 64 -j 64 -k 24
+6.201843
+./mmult -t -b -N 300 -i 64 -j 64 -k 32
+6.057795
+./mmult -t -b -N 300 -i 64 -j 128 -k 8
+6.588656
+./mmult -t -b -N 300 -i 64 -j 128 -k 16
+6.280468
+./mmult -t -b -N 300 -i 64 -j 128 -k 24
+6.215085
+./mmult -t -b -N 300 -i 64 -j 128 -k 32
+6.130221
+./mmult -t -b -N 300 -i 128 -j 32 -k 8
+6.609864
+./mmult -t -b -N 300 -i 128 -j 32 -k 16
+6.280290
+./mmult -t -b -N 300 -i 128 -j 32 -k 24
+6.182250
+./mmult -t -b -N 300 -i 128 -j 32 -k 32
+6.128704
+./mmult -t -b -N 300 -i 128 -j 64 -k 8
+6.547970
+./mmult -t -b -N 300 -i 128 -j 64 -k 16
+6.304984
+./mmult -t -b -N 300 -i 128 -j 64 -k 24
+6.181206
+./mmult -t -b -N 300 -i 128 -j 64 -k 32
+6.104102
+./mmult -t -b -N 300 -i 128 -j 128 -k 8
+6.571876
+./mmult -t -b -N 300 -i 128 -j 128 -k 16
+6.287107
+./mmult -t -b -N 300 -i 128 -j 128 -k 24
+6.140660
+./mmult -t -b -N 300 -i 128 -j 128 -k 32
+6.121436
+
+Script done on Mon, Feb 27, 2017  7:28:57 PM
