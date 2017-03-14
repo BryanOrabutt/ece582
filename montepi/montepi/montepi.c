@@ -167,7 +167,7 @@ void *ThrowDarts(void *thrarg)
 	int i;
 	double x,y;
 	gsl_rng *myrng;
-	unsigned long long myhits = 0; // our local hit count 
+	unsigned long long myhits = 0; // our local hit count
 
 	//
 	// Extract the arguments passed to us
@@ -235,7 +235,7 @@ int main(int argc, char *argv[])
 	//
 	if (Fflag)
 	{
-		if ((outfp = fopen(Outfile, "w")) == NULL)
+		if ((outfp = fopen(Outfile, "wb")) == NULL)
 		{
 			printf("Cannot open %s: %s\n", Outfile, strerror(errno));
 			exit(2);
@@ -271,7 +271,7 @@ int main(int argc, char *argv[])
 	//
 	// Open the GSL RNG state save file
 	//
-	if ((rngfp = fopen(RNGStateFile, "r")) == NULL)
+	if ((rngfp = fopen(RNGStateFile, "rb")) == NULL)
 	{
 		printf("Cannot open %s for reading: %s\n", RNGStateFile, strerror(errno));
 		exit(3);
