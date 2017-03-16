@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# Shell script to automate testing of the execution time of the matrix multiply
+#
+# 20170131: Created for ECE582 by bnoble@siue.edu
+#
+
+#
+# List of i, j, & k strides for sub-block computations of the matrix multiply.
+# Change these as appropriate.
+#
+ISTRIDE_LIST="32 64 128 256 512 1024"
+JSTRIDE_LIST="32 64 128 256 512 1024"
+KSTRIDE_LIST="32 64 128 256 512 1024"
+
+#
+# This script expects exactly one command-line argument -- the matrix size.
+# Make sure it's there and complain if it's not.
+#
+if [ $# -ne 1 ]; then
+	echo "usage: ./$(basename $0) N"
+	echo "       NOTE: Edit this script to change the i, j, & k strides to be tested."
+	exit 1
+fi
+
+#
+# Make sure the matrix size is stictly a number
+#
+if ! echo "$1" | grep -Eq '^[0-9]+$'; then
+	echo "$(basename $0): matrix size must be a number"
+	exit 1
+fi
+
+#
+# Assign the command-line matrix size to a meaningful variable name
+#
+N="${1}"
+
+#
+# Run the simple sequential time first for baseline comparison. Note that
+# the following uses a tiny bit of advanced shell programming techniques
+# to print how mmult was executed.
+#
+echo "Simple sequential timing:"
+CMD="./mmult -t -s -N $N"
+echo "$CMD"
+eval "$CMD"
+
+echo "Block sequential timing:"
+for ISTRIDE in ${ISTRIDE_LIST}; do
+	for JSTRIDE in ${JSTRIDE_LIST}; do
+		for KSTRIDE in ${KSTRIDE_LIST}; do
+			CMD="./mmult -t -b -N ${N} -i $ISTRIDE -j $JSTRIDE -k $KSTRIDE"
+			echo "$CMD"
+			eval "$CMD"
+		done
+	done
+done
