@@ -359,16 +359,22 @@ void block_sequential(void)
 						{
 							pthread_create(&threads[id], NULL, subBlock, &tharg[id]);
 						}
+						/*pthread_mutex_lock(&Work.lock);
+						while (Work.count > 0)
+							pthread_cond_wait(&Work.done, &Work.lock);
+						pthread_mutex_unlock(&Work.lock);*/
 					}
 				}
 			}
 		}
 	}
+
+	printf("\r\ntest\r\n");
 	pthread_mutex_lock(&Work.lock);
 	while (Work.count > 0)
 		pthread_cond_wait(&Work.done, &Work.lock);
 	pthread_mutex_unlock(&Work.lock);
-	//pthread_exit(NULL);
+	pthread_exit(NULL);
 }
 
 void printarray(double **A)
