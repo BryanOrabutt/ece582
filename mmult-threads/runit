@@ -35,22 +35,23 @@ fi
 # Assign the command-line matrix size to a meaningful variable name
 #
 N="${1}"
+P="${2}"
 
 #
 # Run the simple sequential time first for baseline comparison. Note that
 # the following uses a tiny bit of advanced shell programming techniques
 # to print how mmult was executed.
 #
-echo "Simple sequential timing:"
-CMD="./mmult -t -s -N $N"
-echo "$CMD"
-eval "$CMD"
+# echo "Simple sequential timing:"
+# CMD="./mmult -t -s -N $N"
+# echo "$CMD"
+# eval "$CMD"
 
 echo "Block sequential timing:"
 for ISTRIDE in ${ISTRIDE_LIST}; do
 	for JSTRIDE in ${JSTRIDE_LIST}; do
 		for KSTRIDE in ${KSTRIDE_LIST}; do
-			CMD="./mmult -t -b -N ${N} -i $ISTRIDE -j $JSTRIDE -k $KSTRIDE"
+			CMD="./mmult -t -b -N ${N} -i $ISTRIDE -j $JSTRIDE -k $KSTRIDE -p ${P}"
 			echo "$CMD"
 			eval "$CMD"
 		done
