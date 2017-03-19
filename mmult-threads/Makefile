@@ -1,5 +1,11 @@
 mmult	:	mmult.c
-	gcc -g mmult.c -o mmult -Wall -lpthread -lm
+	gcc mmult.c -o mmult -Wall -lpthread -lm
+
+asm	:	mmult.c
+	gcc -S mmult.c -o mmult -Wall -lpthread -lm
+
+dbg	:	mmult.c
+	gcc -g -S mmult.c -o mmult -Wall -lpthread -lm
 
 #
 # To cleanup the look of your program run: make astyle

@@ -42,6 +42,7 @@ struct thread_arg
 struct
 {
 	pthread_mutex_t lock;
+	pthread_cond_t done;
 	unsigned long long int ops;
 	unsigned long long int offset_row;
 	unsigned long long int offset_col;
@@ -313,14 +314,17 @@ void* block_sequential(void* tharg)
 							sum += A[i][k] * B[k][j];
 						}
 						C[i][j] += sum;
-						pthread_mutex_lock(&Work.lock);
-						Work.ops--;
-						pthread_mutex_unlock(&Work.lock);
 					}
 				}
 			}
 		}
 	}
+	pthread_mutex_lock(&Work.lock);
+	Work.ops--;
+	if (Work.ops == 0)
+		pthread_cond_signal(&Work.done);
+	pthread_mutex_unlock(&Work.lock);
+	pthread_exit(NULL);
 }
 
 void printarray(double **A)
@@ -363,11 +367,12 @@ int main(int argc, char *argv[])
 		// Initalize the mutex locks
 		//
 		pthread_mutex_init(&Work.lock, NULL);
+		pthread_cond_init(&Work.done, NULL);
 
 		//
 		// Initialize the other stuff
 		//
-		Work.ops = SQUARE(N);
+		Work.ops = Nthreads;
 		Work.offset_row = Nthreads*istride;
 		Work.offset_col = Nthreads*jstride;
 		threads = (pthread_t *)malloc(Nthreads * sizeof(pthread_t));
@@ -389,11 +394,8 @@ int main(int argc, char *argv[])
 			pthread_create(&threads[i], NULL, block_sequential, &tharg[i]);
 		}
 		pthread_mutex_lock(&Work.lock);
-		while (Work.ops > 0);
-		for(i = 0; i < Nthreads; i++)
-		{
-			pthread_join(threads[i], NULL);
-		}
+		while (Work.ops > 0)
+			pthread_cond_wait(&Work.done, &Work.lock);
 		pthread_mutex_unlock(&Work.lock);
 		//block_sequential();
 		elapsed_time();
