@@ -159,7 +159,6 @@ void parseargs(int argc, char *argv[])
 		}
 	}
 
-	Nthreads = MIN(Nthreads, jstride);
 	/* simple or block sequential algorithm must be specified */
 	if (((simple == 0)&&(block == 0))||((simple)&&(block))) {
 		printf("Must specify either -s (simple) or -b (block) sequential algorithm.\n");
