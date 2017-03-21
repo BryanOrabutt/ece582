@@ -2,7 +2,7 @@ mmult	:	mmult.c
 	gcc mmult.c -o mmult -Wall -lpthread -lm
 
 asm	:	mmult.c
-	gcc -S mmult.c -o mmult -Wall -lpthread -lm
+	gcc -S mmult.c
 
 dbg	:	mmult.c
 	gcc -g mmult.c -o mmult -Wall -lpthread -lm
