@@ -4,10 +4,13 @@
 # Assign the command-line matrix size to a meaningful variable name
 #
 N="${1}"
-P="${2}"
-FN="${3}"
+P1="${2}"
+P2="${3}"
+FN="${4}"
 
-for i in `seq 1 ${P}`; do
-    CMD="script -atf -q -c \"./mmult -t -b -N ${N} -i 64 -j 128 -k 8 -p ${i}\" ${FN}"
-	eval "$CMD"
+for j in `seq 1 10`; do
+    for i in `seq ${P1} ${P2}`; do
+        CMD="script -atf -q -c \"./mmult -t -b -N ${N} -i 64 -j 128 -k 8 -p ${i}\" ${FN}"
+    	eval "$CMD"
+    done
 done

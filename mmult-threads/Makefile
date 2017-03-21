@@ -7,6 +7,10 @@ asm	:	mmult.c
 dbg	:	mmult.c
 	gcc -g mmult.c -o mmult -Wall -lpthread -lm
 
+nosse : mmult.c
+	gcc -mno-sse mmult.c -o mmult -Wall -lpthread -lm
+
+
 #
 # To cleanup the look of your program run: make astyle
 #
