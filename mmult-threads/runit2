@@ -1,6 +1,13 @@
 #!/bin/bash
 
-for i in `seq 1 1`;
-do
-    script -atf -c "./runit ${1}" $2
+#
+# Assign the command-line matrix size to a meaningful variable name
+#
+N="${1}"
+P="${2}"
+FN="${3}"
+
+for i in `seq 1 ${P}`; do
+    CMD="script -atf -q -c \"./mmult -t -b -N ${N} -i 64 -j 128 -k 8 -p ${i}\" ${FN}"
+	eval "$CMD"
 done
