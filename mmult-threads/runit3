@@ -1,0 +1,23 @@
+#!/bin/bash
+ISTRIDE_LIST="32 64 128"
+JSTRIDE_LIST="64 128 256"
+KSTRIDE_LIST="8 16 32"
+
+#
+# Assign the command-line matrix size to a meaningful variable name
+#
+N="${1}"
+FN="${2}"
+
+for j in `seq 1 10`; do
+    for i in `seq 1 128`; do
+        for ISTRIDE in ${ISTRIDE_LIST}; do
+        	for JSTRIDE in ${JSTRIDE_LIST}; do
+        		for KSTRIDE in ${KSTRIDE_LIST}; do
+        			CMD="script -atf -q -c \"./mmult -t -b -N ${N} -i $ISTRIDE -j $JSTRIDE -k $KSTRIDE -p ${i}\" ${FN}"
+        			eval "$CMD"
+        		done
+        	done
+        done
+    done
+done
