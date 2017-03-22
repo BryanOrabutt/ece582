@@ -44,8 +44,8 @@ struct
 	pthread_mutex_t lock;
 	pthread_cond_t done;
 	unsigned long long int ops;
-	unsigned long long int offset_row;
-	unsigned long long int offset_col;
+	unsigned long long int next_row;
+	unsigned long long int next_col;
 }Work;
 
 /*
@@ -288,39 +288,42 @@ void simple_sequential(void)
  */
 void* block_sequential(void* tharg)
 {
-	register int i, j, k, kk, ii, jj;
+	register int i, j, k, kk;
 	struct thread_arg *myarg = (struct thread_arg*)tharg;
 	double sum;
 	int I, J, K;
 
 	if (debug) printf("istride=%d, jstride=%d, kstride=%d\n",istride,jstride,kstride);
 
-	for (ii = myarg->row; ii < N; ii = myarg->row)
+	while(myarg->row < N)
     {
-		for (jj = myarg->col; jj < N; jj += Nthreads*jstride)
+		for (kk = 0; kk < N; kk += kstride)
         {
-			for (kk = 0; kk < N; kk += kstride)
+			I = MIN(myarg->row+istride,N);
+			for (i = myarg->row; i < I; i++)
             {
-				I = MIN(ii+istride,N);
-				for (i = ii; i < I; i++)
+				J = MIN(myarg->col+jstride,N);
+				for (j = myarg->col; j < J; j++)
                 {
-					J = MIN(jj+jstride,N);
-					for (j = jj; j < J; j++)
+					K = MIN(kk+kstride,N);
+					sum = 0.0;
+					for (k = kk; k < K; k++)
                     {
-						K = MIN(kk+kstride,N);
-						sum = 0.0;
-						for (k = kk; k < K; k++)
-                        {
-							sum += A[i][k] * B[k][j];
-						}
-						C[i][j] += sum;
+						sum += A[i][k] * B[k][j];
 					}
+					C[i][j] += sum;
 				}
 			}
 		}
 		pthread_mutex_lock(&Work.lock);
-		Work.offset_row += istride;
-		myarg->row = Work.offset_row;
+		Work.next_col += jstride;
+		if(Work.next_col > N)
+		{
+			Work.next_col = 0;
+			Work.next_row += istride;
+		}
+		myarg->col = Work.next_col;
+		myarg->row = Work.next_row;
 		pthread_mutex_unlock(&Work.lock);
 	}
 	pthread_mutex_lock(&Work.lock);
@@ -377,8 +380,8 @@ int main(int argc, char *argv[])
 		// Initialize the other stuff
 		//
 		Work.ops = Nthreads;
-		Work.offset_row = 0;
-		Work.offset_col = 0;
+		Work.next_row = 0;
+		Work.next_col = 0;
 		threads = (pthread_t *)malloc(Nthreads * sizeof(pthread_t));
 		tharg = (struct thread_arg *)malloc(Nthreads * sizeof(struct thread_arg));
 
@@ -388,13 +391,13 @@ int main(int argc, char *argv[])
 		for (i = 0; i < Nthreads; i++)
 		{
 			tharg[i].id = i;
-			tharg[i].row = Work.offset_row;
-			tharg[i].col = Work.offset_col;
-			Work.offset_col += jstride;
-			if(Work.offset_col > N)
+			tharg[i].row = Work.next_row;
+			tharg[i].col = Work.next_col;
+			Work.next_col += jstride;
+			if(Work.next_col > N)
 			{
-				Work.offset_col = 0;
-				Work.offset_row += istride;
+				Work.next_col = 0;
+				Work.next_row += istride;
 			}
 		}
 
