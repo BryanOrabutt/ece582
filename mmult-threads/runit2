@@ -10,7 +10,7 @@ FN="${4}"
 
 for j in `seq 1 10`; do
     for i in `seq ${P1} ${P2}`; do
-        CMD="script -atf -q -c \"./mmult -t -b -N ${N} -i 64 -j 128 -k 8 -p ${i}\" ${FN}"
+        CMD="script -f -q -c \"./mmult -t -b -N ${N} -i 64 -j 128 -k 8 -p ${i}\" ${FN}"
     	eval "$CMD"
     done
 done

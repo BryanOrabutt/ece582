@@ -14,9 +14,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#include <time.h>
 #include <errno.h>
 #include <pthread.h>
-#include <windows.h> /* needed for QueryPerformanceFrequency() and QueryPerformanceFrequency() */
+//#include <windows.h> /* needed for QueryPerformanceFrequency() and QueryPerformanceFrequency() */
 
 #define _64bit (sizeof(void*) == 8)
 #define	DEFAULT_NUMBER_OF_THREADS 1
@@ -53,9 +54,9 @@ struct
  *   These will have to be global when we make this program threaded.
  */
 double **A, **B, **C;
-long TimeCountStart;
-double Freq;
-double ElapsedTimeInSeconds;
+//long TimeCountStart;
+//double Freq;
+//double ElapsedTimeInSeconds;
 
 /*
  * getopt globals
@@ -210,7 +211,7 @@ void parseargs(int argc, char *argv[])
  * Initialize timing parameters
  * Based on: https://cygwin.com/ml/cygwin/2000-03/msg00579.html
  */
-void initialize_time(void)
+/*void initialize_time(void)
 {
 	LARGE_INTEGER lFreq, lCnt;
 
@@ -228,6 +229,17 @@ void elapsed_time(void)
 	QueryPerformanceCounter(&lCnt);
 	tcnt = (_64bit) ? (lCnt.QuadPart - TimeCountStart):(lCnt.LowPart - TimeCountStart);
 	ElapsedTimeInSeconds = ((double)tcnt)/Freq;
+}*/
+
+//
+// Returns a long integer scaled to GetMilliseconds
+//
+unsigned long long GetMilliseconds(void)
+{
+	static struct timeval tp;
+
+	gettimeofday(&tp, (struct timezone *)0);
+	return (tp.tv_sec * 1000 + tp.tv_usec / 1000);
 }
 
 /*
@@ -244,9 +256,13 @@ void initialize(void)
 	B = (double **) malloc(N*sizeof(double *));
 	C = (double **) malloc(N*sizeof(double *));
 
-	p1 = (double *) memalign(getpagesize(),N*N*sizeof(double));
-	p2 = (double *) memalign(getpagesize(),N*N*sizeof(double));
-	p3 = (double *) memalign(getpagesize(),N*N*sizeof(double));
+	//p1 = (double *) memalign(getpagesize(),N*N*sizeof(double));
+	//p2 = (double *) memalign(getpagesize(),N*N*sizeof(double));
+	//p3 = (double *) memalign(getpagesize(),N*N*sizeof(double));
+
+	posix_memalign(&p1, getpagesize(),N*N*sizeof(double));
+	posix_memalign(&p2, getpagesize(),N*N*sizeof(double));
+	posix_memalign(&p3, getpagesize(),N*N*sizeof(double));
 
 	for (i = 0 ; i < N; i++, p1 += N, p2 += N, p3 += N) {
 		A[i] = p1;
@@ -349,6 +365,7 @@ int main(int argc, char *argv[])
 	int i;
 	pthread_t *threads;
 	struct thread_arg *tharg;
+	unsigned long long stime, etime;
 
 	parseargs(argc, argv);
 	if (debug) {
@@ -364,10 +381,12 @@ int main(int argc, char *argv[])
 		printarray(C);
 	}
 	if (simple) {
-		initialize_time();
+		//initialize_time();
+		stime = GetMilliseconds();
 		simple_sequential();
-		elapsed_time();
-		if (timing) printf("%f\n",ElapsedTimeInSeconds);
+		etime = GetMilliseconds();
+		//elapsed_time();
+		if (timing) printf("%llu\n",etime-stime);
 	}
 	else if (block) {
 		//
@@ -401,7 +420,13 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		initialize_time();
+		//initialize_time();
+		//
+		// Begin timing - Always compute the starting and ending time.
+		// Don't test to see if the user wants it so that we don't include the
+		// overhead of checking in the run-time.
+		//
+		stime = GetMilliseconds();
 		for(i = 0; i < Nthreads; i++)
 		{
 			pthread_create(&threads[i], NULL, block_sequential, &tharg[i]);
@@ -410,9 +435,13 @@ int main(int argc, char *argv[])
 		while (Work.ops > 0)
 			pthread_cond_wait(&Work.done, &Work.lock);
 		pthread_mutex_unlock(&Work.lock);
+		//
+		// End timing - See the note above about overhead
+		//
+		etime = GetMilliseconds();
 		//block_sequential();
-		elapsed_time();
-		if (timing) printf("%f\n",ElapsedTimeInSeconds);
+		//elapsed_time();
+		if (timing) printf("%llu\n",etime - stime);
 	}
 	if (out) {
 		printf("C =\n");
